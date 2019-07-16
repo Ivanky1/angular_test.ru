@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html ng-app="studyModule">
+<head>
+
+    <title>Multiple Controllers</title>
+    <script src="../js/angular.min.js"></script>
+    <link href="../js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script>
+        angular.module("studyModule", [])
+        .directive('orderedList', function() {
+                    return function (scope, element, attributes) {
+                        var data = scope[attributes['orderedList']];
+                        var expression = attributes['customProperty'];
+                        if (angular.isArray(data)) {
+                            var elem = angular.element('<ol>');
+                            for (var i=0; i<data.length; i++) {
+                                (function () {
+                                    var itemElem = angular.element('<li>');
+                                    elem.append(itemElem);
+                                    var index = i;
+                                    var watcherFunction = function(watchScope) {
+                                       return watchScope.$eval(expression, data[index]);
+                                    }
+                                    scope.$watch(watcherFunction, function(newValue, oldValue) {
+                                        itemElem.text(newValue);
+                                    })
+                                }());
+                            }
+                            element.append(elem);
+
+                        }
+                    }
+                })
+        .controller("studyCtrl", function ($scope) {
+            $scope.items = [
+                {itemName: 'Table', itemPrice: 100},
+                {itemName: 'Chair', itemPrice: 140},
+                {itemName: 'Word', itemPrice: 280},
+                {itemName: 'Letter', itemPrice: 450},
+            ];
+            $scope.changePrice = function() {
+                for (var i=0; i<$scope.items.length; i++) {
+                    $scope.items[i].itemPrice++;
+                }
+            }
+        });
+    </script>
+</head>
+<body class="row">
+<div class="col-xs-6">
+    <div class="panel panel-success" ng-controller="studyCtrl">
+        <div class="panel-header">
+            <button class="btn btn-success" ng-click="changePrice()">Увеличить</button>
+        </div>
+        <div class="panel-body">
+            <div ordered-list="items" custom-property="itemPrice | currency"></div>
+        </div>
+
+
+    </div>
+</div>
+
+</body>
+</html>

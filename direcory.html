@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html ng-app="studyModule">
+<head>
+    <title>ng-show and ng-hide</title>
+    <!--директивы ng-show и ng-hide используются для управления видимостью элемента в зависимости от условия
+     добавляя или удаляя css класс. Этот класс применяет dispaly:none
+    -->
+    <script src="js/angular.min.js"></script>
+    <link href="js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script>
+        var app = angular.module('studyModule', []);
+        app.directive('orderList', function() {
+            return function(scope, element, attributes) {
+                var data = scope[attributes["orderList"]];
+                var expression = attributes["customProperty"];
+                if (angular.isArray(data)) {
+                    var ol = angular.element('<ol>');
+                    element.append(ol)
+                    for (var i = 0; i < data.length; i++) {
+
+                        (function () {
+                            var liElement = angular.element('<li>');
+                            ol.append(liElement);
+                            var index = i;
+
+                            function watchFunction(watchScope) {
+                                return watchScope.$eval(expression, data[index]);
+                            }
+                            scope.$watch(watchFunction, function(newValue, oldValue) {
+                                    liElement.text(newValue);
+                            })
+                        }());
+                    }
+                }
+            }
+        })
+
+        app.controller('studyCntr', function($scope) {
+            $scope.updatePrice = function() {
+                for(var i=0; i<$scope.items.length; i++) {
+                    $scope.items[i].price++;
+                }
+            }
+            $scope.items = [
+                {name: 'fruit', price: 1.25},
+                {name: 'Water', price: 10.15},
+                {name: 'Vodka', price: 25.50},
+                {name: 'Fish', price: 4.25},
+            ];
+        })
+
+
+     </script>
+    </head>
+
+    <body>
+        <div ng-controller="studyCntr">
+            <input type="submit" ng-click="updatePrice()"  class="btn btn-success" value="Увеличить">
+            <div order-list="items"  custom-property="price | currency"></div>
+        </div>
+
+    </body>
+
+</html>

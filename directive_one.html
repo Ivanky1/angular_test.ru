@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html ng-app="studyModule">
+<head>
+    <title>ng-show and ng-hide</title>
+    <!--'директивы ng-show и ng-hide используются для управления видимостью элемента в зависимости от условия',     'добавляя или удаляя css класс. Этот класс применяет dispaly:none',    -->
+    <script src="js/angular.min.js"></script>
+    <link href="js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script>
+        angular.module("studyModule", [])
+        .controller("studyCtrl", function ($scope) {
+            $scope.tasks = [
+                {row: 'Rows1', column: 'Column1'},
+                {row: 'Rows2', column: 'Column2'},
+                {row: 'Rows3', column: 'Column3'},
+                {row: 'Rows4', column: 'Column4'},
+                {row: 'Rows5', column: 'Column5'},
+                {row: 'Rows6', column: 'Column6'},
+            ];
+            $scope.message = "Hover me!";
+        })
+        .directive('myFirst', function() {
+                    return function(scope, element, attributes) {
+                        element.on('mouseover', function() {
+                            attributes['tap'] = "message='Hover too!!!'"
+                            scope.$apply(attributes['tap'])
+                        });
+                    }
+                });
+
+    </script>
+<style>
+    .Green {
+        background: lightgreen;
+    }
+    .Red {
+        background: red;
+    }
+    .Blue {
+        background: lightblue;
+    }
+    #tasksPanel {
+        margin-left: 50px;
+    }
+
+</style>
+</head>
+<body>
+    <div id="tasksPanel" class="panel" ng-controller="studyCtrl">
+        <div class="alert-success" my-first >{{message}}</div>
+
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html ng-app="defaultModule">
+<head>
+    <title>ng-show and ng-hide</title>
+
+    <script src="js/angular.min.js"></script>
+    <link href="js/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+
+    <script>
+        var app = angular.module("defaultModule", []);
+        app.controller('mainCtrl', function($scope, $http) {
+            $scope.items = [
+                { itemName: "Milk", itemCategory: "Dairy", itemPrice: 1.40, expireDate: 1 },
+                { itemName: "Cheese", itemCategory: "Dairy", itemPrice: 2.40, expireDate: 2 },
+                { itemName: "Water", itemCategory: "Drinks", itemPrice: 1.20, expireDate: 366 },
+                { itemName: "Juice", itemCategory: "Drinks", itemPrice: 3.30, expireDate: 60 },
+                { itemName: "Potato", itemCategory: "Vegetable", itemPrice: 5.90, expireDate: 14 },
+                { itemName: "Tomato", itemCategory: "Vegetable", itemPrice: 6.88, expireDate: 9 }
+            ];
+
+            /*
+            $scope.limitValue = "5";
+            $scope.limitRange = [];
+            for (var i = (0 - $scope.items.length) ; i <= $scope.items.length; i++) {
+                $scope.limitRange.push(i.toString());
+            } */
+
+            $scope.getCalcDate = function(day) {
+                var dt = new Date();
+                return dt.setDate(dt.getDate() + day);
+            }
+
+        })
+    </script>
+
+</head>
+<body>
+    <div id="tasksPanel" class="panel col-xl-3" ng-controller="mainCtrl">
+
+        <div class="panel-heading">
+            <h3>
+                Items in cart
+                <span class="label label-info">{{items.length}}</span>
+            </h3>
+        </div>
+        <div class="col-sm-3 col-sm-4" ng-repeat="item in items">
+            <div class="panel-success">
+                <div class="panel-heading">
+                    <h4>{{item.itemName}}</h4>
+                </div>
+                <div class="panel-body">
+                    <span class="h4">{{item.itemCategory | lowercase}}</span>
+                    <p class="text-right"><span class="h4">Price: </span>{{item.itemPrice | currency}}</p>
+                    <p class="text-right"><span class="h4">Date: </span>{{getCalcDate(item.expireDate) | date:"dd MMMM yy"}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+

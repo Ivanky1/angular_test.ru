@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html ng-app="studyModule">
+<head>
+
+    <title>Multiple Controllers</title>
+    <script src="../js/angular.min.js"></script>
+    <link href="../js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script type="text/template" id="template">
+        <div class="alert-success">
+            <div>This is {{property}} color</div>
+            <input ng-model="property" />
+        </div>
+    </script>
+    <script>
+        angular.module("studyModule", [])
+        .directive('scopeExample', function() {
+                   return {
+                       link: function(scope, element, attributes) {
+                            scope.data = scope[attributes['orderedList']];
+                       },
+                       restrict: 'A',
+                       template: function() {
+                           return angular.element(document.querySelector('#template')).html()
+                       },
+                       scope: {
+                           //property: '@color'// Однонаправленная привязка
+                           property: "=color"// Двунаправленная привязка
+
+                       }
+                   }
+
+                })
+        .controller("studyCtrl", function ($scope) {
+            $scope.data = {color: 'Green'};
+        });
+    </script>
+</head>
+<body class="row">
+<div class="col-xs-6">
+    <div class="panel panel-success" ng-controller="studyCtrl">
+        <div>Color:{{data.color}}</div> <input ng-model="data.color">
+        <!--<div class="panel-body" scope-example color="{{data.color}}"></div>-->
+        <div class="panel-body" scope-example color="data.color"></div>
+    </div>
+</div>
+
+</body>
+</html>

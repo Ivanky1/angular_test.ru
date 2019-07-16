@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html ng-app="defaultModule">
+<head>
+    <title>ng-show and ng-hide</title>
+
+    <script src="js/angular.min.js"></script>
+    <link href="js/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+
+    <script>
+        var app = angular.module("defaultModule", []);
+        app.controller('mainCtrl', function($scope, $http) {
+            $scope.getFruits = function() {
+                $http.get('data.json').success(function(responseData) {
+                    $scope.fruits = responseData;
+                })
+            }
+
+        })
+    </script>
+
+</head>
+<body>
+    <div id="tasksPanel" class="panel col-xl-3" ng-controller="mainCtrl">
+        <button class="btn" ng-click="getFruits()">Запустить</button>
+
+        <div class="panel">
+            <div class="row">
+                <div class="col-sm-4" ng-repeat="fruit in fruits">
+                    <div class="card-title">{{fruit.name}}</div>
+                    <div>{{fruit.price|currency}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

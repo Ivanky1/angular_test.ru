@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html ng-app="studyModule">
+<head>
+    <title>ng-show and ng-hide</title>
+    <!--директивы ng-show и ng-hide используются для управления видимостью элемента в зависимости от условия
+     добавляя или удаляя css класс. Этот класс применяет dispaly:none
+    -->
+    <script src="js/angular.min.js"></script>
+    <link href="js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script>
+        var app = angular.module("studyModule", [])
+        app.directive("orderList", function() {
+            return function(scope, element, attr) {
+                var data = scope[attr['orderList']];
+                var expression = attr['customProperty'];
+                if (angular.isArray(data)) {
+                    var elem = angular.element("<ol>");
+                    for(var i=0; i<data.length; i++) {
+                        elem.append(angular.element('<li>').text(scope.$eval(expression, data[i])));
+                    }
+                    element.append(elem);
+                }
+
+            }
+        })
+        app.controller("mainCtrl", function ($scope) {
+            $scope.items = [
+                {itemValue: 'Milk', price: 1.60, expireDate: 1},
+                {itemValue: 'Water', price: 22.00, expireDate: 366},
+                {itemValue: 'Vodka', price: 5.63, expireDate: 14},
+                {itemValue: 'Bear', price: 3.97, expireDate: 55},
+                {itemValue: 'Fish', price: 8.12, expireDate: 3},
+            ];
+
+        });
+    </script>
+
+</head>
+<body>
+    <div id="tasksPanel" class="panel col-xl-3" ng-controller="mainCtrl">
+        <div class="h3" order-list="items" custom-property="price | currency">
+
+        </div>
+    </div>
+
+</body>
+</html>
+

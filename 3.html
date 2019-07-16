@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html ng-app="studyModule">
+<head>
+    <title>ng-show and ng-hide</title>
+    <!--директивы ng-show и ng-hide используются для управления видимостью элемента в зависимости от условия
+     добавляя или удаляя css класс. Этот класс применяет dispaly:none
+    -->
+    <script src="js/angular.min.js"></script>
+    <link href="js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script>
+        var app = angular.module("studyModule", [])
+        app.controller("mainCtrl", function ($scope) {
+            $scope.obj = {
+                value: 'Тестовый элемент'
+            }
+
+        });
+        app.controller("childCtrl", function ($scope) {
+            $scope.dis = false;
+            $scope.changeLetters = function() {
+                var t = '';
+                $scope.dis = (!$scope.dis) ?true :false;
+                angular.forEach($scope.obj.value.split(""), function(char, index){
+                    if ($scope.dis) {
+                        t +=  (index % 2 == 1) ? char.toUpperCase() : char.toLowerCase();
+                    } else {
+                        t += (index % 2 == 0) ? char.toUpperCase() : char.toLowerCase();
+                    }
+                })
+                $scope.obj.value = t;
+            }
+
+
+        });
+    </script>
+
+</head>
+<body>
+    <div id="tasksPanel" class="panel" ng-controller="mainCtrl">
+        <input ng-model="obj.value">
+
+        <div class="panel form-control" ng-controller="childCtrl">
+            <input ng-model="obj.value">
+            <button class="btn btn-default" type="button" ng-click="changeLetters()">Перемещать</button>
+        </div>
+    </div>
+
+</body>
+</html>
+
+

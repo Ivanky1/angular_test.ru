@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html ng-app="studyModule">
+<head>
+    <title>ng-show and ng-hide</title>
+    <!--директивы ng-show и ng-hide используются для управления видимостью элемента в зависимости от условия
+     добавляя или удаляя css класс. Этот класс применяет dispaly:none
+    -->
+    <script src="js/angular.min.js"></script>
+    <link href="js/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script type="text/ng-template" id="templateId">
+        <div class='panel-body'>
+          <!--  Create caption <input ng-model="defaultCaption"> -->
+            <div class="panel-heading"><p>Type something: <input ng-model="property" /></p></div>
+
+        </div>
+    </script>
+    <script>
+        var app = angular.module("studyModule", [])
+        app.directive("scopeExample", function() {
+            return {
+                template: function() {
+                    return angular.element(document.querySelector('#templateId')).html();
+                },
+                scope: {
+                    property: "=color"
+                }
+            }
+
+        })
+        app.controller("mainCtrl", function ($scope) {
+           // $scope.defaultCaption = "Caption";
+            $scope.data = { color: "Green" };
+            $scope.items = [
+                {itemValue: 'Milk', price: 1.60, expireDate: 1},
+                {itemValue: 'Water', price: 22.00, expireDate: 366},
+                {itemValue: 'Vodka', price: 5.63, expireDate: 14},
+                {itemValue: 'Bear', price: 3.97, expireDate: 55},
+                {itemValue: 'Fish', price: 8.12, expireDate: 3},
+            ];
+
+        });
+    </script>
+
+</head>
+<body>
+    <div id="tasksPanel" class="panel col-xl-3" ng-controller="mainCtrl">
+        <div class="panel-heading">
+            Binding source: <input ng-model="data.color" />
+        </div>
+        <div class="panel-body" scope-example color="data.color"></div>
+
+    </div>
+
+</body>
+</html>

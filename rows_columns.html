@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html ng-app="studyModule">
+<head>
+    <title>ng-show and ng-hide</title>
+    <!--директивы ng-show и ng-hide используются для управления видимостью элемента в зависимости от условия
+     добавляя или удаляя css класс. Этот класс применяет dispaly:none
+    -->
+    <script src="js/angular.min.js"></script>
+    <link href="js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script>
+        angular.module("studyModule", [])
+        .controller("studyCtrl", function ($scope) {
+
+            $scope.tasks = [
+                {row: 'Rows1', column: 'Column1'},
+                {row: 'Rows2', column: 'Column2'},
+                {row: 'Rows3', column: 'Column3'},
+                {row: 'Rows4', column: 'Column4'},
+                {row: 'Rows5', column: 'Column5'},
+                {row: 'Rows6', column: 'Column6'},
+            ];
+            $scope.settings = {
+                columns: 'Green',
+                rows: 'Red',
+            };
+            $scope.buttonNames = ['Green', 'Red', 'Blue'];
+
+            $scope.handleEvent = function(e) {
+                console.log(e.type);
+                $scope.settings.columns = (e.type == 'mouseover') ? 'Green' : 'Blue';
+            }
+
+        });
+    </script>
+<style>
+    .Green {
+        background: lightgreen;
+    }
+    .Red {
+        background: red;
+    }
+    .Blue {
+        background: lightblue;
+    }
+    #tasksPanel {
+        margin-left: 50px;
+    }
+
+</style>
+</head>
+<body>
+    <div id="tasksPanel" class="panel" ng-controller="studyCtrl">
+
+        <div class="row">
+            <div class="col-xs-6" ng-repeat="(key, val) in settings">
+                <h4>{{key}}</h4>
+                <div class="radio" ng-repeat="button in buttonNames">
+                    <input type="radio" ng-model="settings[key]" value="{{button}}"/>
+                    <label>{{button}}</label>
+                </div>
+            </div>
+
+        </div>
+
+        <table class="table-bordered">
+            <tr ng-repeat="task in tasks" ng-class-even="settings.rows" ng-class-odd="settings.columns" ng-mouseenter="handleEvent($event)"
+                ng-mouseleave="handleEvent($event)">
+
+                <td class="{{settings.columns}}">{{task.column}}</td>
+                <td class="{{settings.rows}}">{{task.row}}</td>
+            </tr>
+
+        </table>
+
+    </div>
+</body>
+</html>
+

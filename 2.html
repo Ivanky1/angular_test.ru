@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html ng-app="studyModule">
+<head>
+    <title>ng-show and ng-hide</title>
+    <!--директивы ng-show и ng-hide используются для управления видимостью элемента в зависимости от условия
+     добавляя или удаляя css класс. Этот класс применяет dispaly:none
+    -->
+    <script src="js/angular.min.js"></script>
+    <link href="js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script>
+        angular.module("studyModule", [])
+        .controller("studyCtrl", function ($scope) {
+            $scope.requiredValue = true;
+            $scope.matchPattern = new RegExp("^[a-z]");
+
+            $scope.tasks = [
+                {text: 'Text1', complete: false},
+                {text: 'Text2', complete: true},
+                {text: 'Text3', complete: false},
+                {text: 'Text4', complete: false},
+                {text: 'Text5', complete: true},
+            ]
+
+        });
+    </script>
+
+</head>
+<body>
+    <div id="tasksPanel" class="panel" ng-controller="studyCtrl">
+        <form name="myForm" novalidate>
+            <p>Required error {{myForm.some.$error.required}}</p>
+            <p>Min length error {{myForm.some.$error.minlength}}</p>
+            <p>Max length error {{myForm.some.$error.maxlength}}</p>
+            <p>Pattern error {{myForm.some.$error.pattern}}</p>
+            <p>Valid {{myForm.some.$valid}}</p>
+            <textarea name="some" ng-model="textValue" ng-required="requiredValue" ng-minlength="3" ng-pattern="matchPattern">
+                
+            </textarea>
+        </form>
+
+        <table class="table-bordered">
+            <tr ng-repeat="task in tasks" ng-if="!task.complete">
+                <td>{{task.text}}</td>
+                <td>{{task.complete}}</td>
+            </tr>
+
+        </table>
+
+    </div>
+</body>
+</html>

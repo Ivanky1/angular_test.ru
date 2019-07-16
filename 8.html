@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html ng-app="studyModule">
+<head>
+    <title>ng-show and ng-hide</title>
+
+    <script src="js/angular.min.js"></script>
+    <link href="js/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script type="text/ng-template" id="templateId">
+            <ul>
+                <li ng-repeat="item in data">{{item.itemValue}}</li>
+            </ul>
+    </script>
+    <script>
+        var app = angular.module("studyModule", [])
+        app.directive("scopeExample", function() {
+            return {
+                link: function(scope, element, attr) {
+                    scope.data = scope[attr['scopeExample']];
+                },
+                templateUrl: 'template.html'
+                /*
+                template: function() {
+                    return angular.element(document.querySelector('#templateId')).html();
+                }, */
+            }
+
+        }
+        )
+        app.controller("mainCtrl", function ($scope) {
+            $scope.kind = function(value) {
+                return (value == 'Apple') ?'This is fruit' : 'This is not default';
+            };
+            $scope.fruit = 'Apple';
+           // $scope.data = { type: "Green" };
+            $scope.items = [
+                {itemValue: 'Milk', price: 1.60, expireDate: 1},
+                {itemValue: 'Water', price: 22.00, expireDate: 366},
+                {itemValue: 'Vodka', price: 5.63, expireDate: 14},
+                {itemValue: 'Bear', price: 3.97, expireDate: 55},
+                {itemValue: 'Fish', price: 8.12, expireDate: 3},
+            ];
+
+        });
+    </script>
+
+</head>
+<body>
+    <div id="tasksPanel" class="panel col-xl-3" ng-controller="mainCtrl">
+        <div scope-example="items">
+
+        </div>
+
+
+    </div>
+
+</body>
+</html>
+
+

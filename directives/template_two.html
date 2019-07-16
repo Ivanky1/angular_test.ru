@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html ng-app="studyModule">
+<head>
+
+    <title>Multiple Controllers</title>
+    <script src="../js/angular.min.js"></script>
+    <link href="../js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script>
+        angular.module("studyModule", [])
+        .directive('orderedList', function() {
+                   return {
+                       link: function(scope, element, attributes) {
+                            scope.data = scope[attributes['orderedList']];
+                       },
+                       restrict: 'A',
+                       templateUrl: 'template.html'
+                   }
+
+                })
+        .controller("studyCtrl", function ($scope) {
+            $scope.items = [
+                {itemName: 'Table', itemPrice: 100},
+                {itemName: 'Chair', itemPrice: 140},
+                {itemName: 'Word', itemPrice: 280},
+                {itemName: 'Letter', itemPrice: 450},
+            ];
+            $scope.changePrice = function() {
+                for (var i=0; i<$scope.items.length; i++) {
+                    $scope.items[i].itemPrice++;
+                }
+            }
+        });
+    </script>
+</head>
+<body class="row">
+<div class="col-xs-6">
+    <div class="panel panel-success" ng-controller="studyCtrl">
+
+        <div class="panel-body">
+            <div ordered-list="items" custom-property="itemPrice | currency"></div>
+        </div>
+
+
+    </div>
+</div>
+
+</body>
+</html>

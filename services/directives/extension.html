@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" ng-app="studyModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Module Extension</title>
+    <script src="../../js/angular.min.js"></script>
+    <link href="../../js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+</head>
+    <script>
+        angular.module("studyModule", [])
+                .controller("studyCtrl", function ($scope) {
+                   $scope.data = {
+                       cities: ['London', 'Paris', 'Moscow'],
+                       totalClick: 0
+                   }
+
+                   $scope.$watch('data.totalClick', function(newVal) {
+                       console.log('Новое значение '+ newVal)
+                   })
+                })
+
+    </script>
+<script src="directive.js"></script>
+<body ng-controller="studyCtrl">
+    <div class="well">
+        <div class="btn-group" tri-button counter="data.totalClick" source="{{data.cities}}">
+            <button class="btn btn-default" ng-repeat="city in data.cities">{{city}}</button>
+        </div>
+        <h5>Total clicks {{data.totalClick}}</h5>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html ng-app="studyModule">
+<head>
+
+    <title>Multiple Controllers</title>
+    <script src="../js/angular.min.js"></script>
+    <link href="../js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script type="text/template" id="template">
+        <div class="alert-success">
+            <div>Create defaultCaption: {{defaultCaption}}</div>
+            <input type="text" ng-model="defaultCaption">
+            <!--<div>Create caption: {{data.caption}}</div>
+            <input type="text" ng-model="data.caption"> -->
+        </div>
+    </script>
+    <script>
+        angular.module("studyModule", [])
+        .config(function($httpProvider) {
+                    $httpProvider.interceptors.push(function() {
+                         return {
+                             request: function(config) {
+                                // config.url = 'data.json';
+                                 return config;
+                             },
+                             response: function(response) {
+                                 console.log('Console log fruits length equal '+ response.data.length);
+                                 return response;
+                             }
+                         }
+                    });
+
+                })
+        .controller("defaultCtrl", function ($scope, $http) {
+            $scope.getFruits = function() {
+                $http.get('notExists.xml').then(function(responce) {
+                    $scope.fruits = responce.data;
+                })
+            }
+        })
+
+    </script>
+</head>
+<body class="row">
+<div class="col-xs-6">
+    <div class="panel panel-success" ng-controller="defaultCtrl">
+        <div class="panel-body">
+            <button ng-click="getFruits()" class="btn-success btn">Получить</button>
+            <ul>
+                <li ng-repeat="fruit in fruits">{{fruit.name}} - {{fruit.price | currency}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+
